@@ -50,7 +50,16 @@ docker pull ghcr.io/sukawasatoru/op-tee:1.0
 cd <path to work dir>
 mkdir -p .ccache
 mkdir -p toolchains
-docker run --name op-tee -it --mount type=bind,src=$HOME/.bashrc,dst=/root/.bashrc,readonly --mount type=bind,src=$HOME/.inputrc,dst=/root/.inputrc,readonly --mount type=bind,src=$HOME/.gitconfig,dst=/root/.gitconfig,readonly --mount type=bind,src=$PWD/.gitconfig.local,dst=/root/.gitconfig.local --mount type=bind,src=$PWD/.bash_history,dst=/root/.bash_history --mount type=bind,src=$PWD/.ccache,dst=/root/.ccache --mount type=bind,src=$PWD,dst=/work -w/work ghcr.io/sukawasatoru/op-tee:1.0
+docker run --name op-tee -it \
+  --mount type=bind,src=$HOME/.bashrc,dst=/root/.bashrc,readonly \
+  --mount type=bind,src=$HOME/.inputrc,dst=/root/.inputrc,readonly \
+  --mount type=bind,src=$HOME/.gitconfig,dst=/root/.gitconfig,readonly \
+  --mount type=bind,src=$PWD/.gitconfig.local,dst=/root/.gitconfig.local \
+  --mount type=bind,src=$PWD/.bash_history,dst=/root/.bash_history \
+  --mount type=bind,src=$PWD/.ccache,dst=/root/.ccache \
+  --mount type=bind,src=$PWD,dst=/work \
+  -w/work \
+  ghcr.io/sukawasatoru/op-tee:1.0
 ```
 
 Docker container の初期設定
@@ -77,7 +86,7 @@ cd /work/toolchains/aarch64/bin && for f in *-none-linux*; do ln -s $f ${f//-non
 # https://optee.readthedocs.io/en/latest/building/devices/qemu.html
 # https://optee.readthedocs.io/en/latest/building/gits/build.html#step-3-get-the-source-code
 mkdir /work/src
-cd src
+cd /work/src
 repo init -u https://github.com/OP-TEE/manifest.git
 # if running under the proxy environment, need to rewrite manifest:
 # .repo/manifests/default.xml `https://gitlab.denx.de/u-boot` to `https://github.com/u-boot`
