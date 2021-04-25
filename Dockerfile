@@ -172,3 +172,5 @@ RUN --mount=type=cache,target=/var/cache/apt \
   ccache \
   vim
 COPY --from=repo repo /usr/local/bin/repo
+
+LABEL org.opencontainers.image.source https://github.com/sukawasatoru/my-op-tee
