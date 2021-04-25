@@ -134,7 +134,6 @@ docker exec -it op-tee /work/src/soc_term/soc_term 54321
 make -j$(($(nproc) + 1)) run
 # launched the qemu.
 c
-c
 ```
 
 Clean
