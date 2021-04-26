@@ -48,14 +48,15 @@ Android / OP-TEE / QEMU を Build するための環境を GitHub Container Regi
 docker pull ghcr.io/sukawasatoru/op-tee:1.0
 
 cd <path to work dir>
-mkdir -p .ccache
-mkdir -p toolchains
+mkdir -p .ccache files
+touch files/{.bash_history,.gitconfig.local}
+
 docker run --name op-tee -it \
   --mount type=bind,src=$HOME/.bashrc,dst=/root/.bashrc,readonly \
   --mount type=bind,src=$HOME/.inputrc,dst=/root/.inputrc,readonly \
   --mount type=bind,src=$HOME/.gitconfig,dst=/root/.gitconfig,readonly \
-  --mount type=bind,src=$PWD/.gitconfig.local,dst=/root/.gitconfig.local \
-  --mount type=bind,src=$PWD/.bash_history,dst=/root/.bash_history \
+  --mount type=bind,src=$PWD/files/.gitconfig.local,dst=/root/.gitconfig.local \
+  --mount type=bind,src=$PWD/files/.bash_history,dst=/root/.bash_history \
   --mount type=bind,src=$PWD/.ccache,dst=/root/.ccache \
   --mount type=bind,src=$PWD,dst=/work \
   -w/work \
@@ -74,6 +75,7 @@ Docker container の初期設定
 # https://optee.readthedocs.io/en/latest/building/toolchains.html
 # https://github.com/OP-TEE/build/blob/master/toolchain.mk
 # for cache toolchains.
+mkdir -p toolchains
 cd /work/toolchains
 [[ ! -f gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz ]] && curl -fSLO https://developer.arm.com/-/media/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz
 [[ ! -f gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz ]] && curl -fSLO https://developer.arm.com/-/media/Files/downloads/gnu-a/9.2-2019.12/binrel/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
